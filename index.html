@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="assets/css/uikit.min.css" />
+   <script src="assets/js/uikit.min.js"></script>
+   <body>
+      <div uk-grid class="uk-padding-small">
+      <div class="uk-card uk-card-default uk-card-body uk-width-1-2">
+         <h3 class="uk-card-title">Добавить пользователя в базу</h3>
+         <div ng-app="app" ng-controller="formNewUser">
+            <form>
+               <fieldset class="uk-fieldset">
+                  <div class="uk-margin">
+                     <input type="text" ng-model="user.firstName" class="uk-input" placeholder="First Name" required>
+                     <span ng-show="formNewUser.user.firstName.$touched && formNewUser.user.firstName.$invalid">The name is required.</span>
+                  </div>
+                  <div class="uk-margin">
+                     <input class="uk-input" placeholder="Last Name" type="text" ng-model="user.lastName" required>
+                     <span ng-show="formNewUser.user.lastName.$touched && formNewUser.user.lastName.$invalid">The Last Name is required.</span>
+                  </div>
+                  <div class="uk-margin">
+                     <input class="uk-input" placeholder="Age" type="text" ng-model="user.age" required>
+                     <span ng-show="formNewUser.user.age.$touched && formNewUser.user.age.$invalid">The age is required.</span>
+                  </div>
+               </fieldset>
+               <button class="uk-button uk-button-default" ng-click="reset()">RESET</button>
+               <button class="uk-button uk-button-default" ng-click="send()">SEND</button>
+            </form>
+            <div>
+               <div class="uk-card uk-card-primary uk-card-body uk-card-small uk-margin-small">
+                  <p>form = {{user}}</p>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="uk-card uk-card-default uk-card-body uk-width-1-2">Output</div>
+      </div>
+
+      <script>
+         var app = angular.module('app', []);
+         app.controller('formNewUser', function($scope, $http) {
+             $scope.master = {firstName:"", lastName:"", age: ""};
+
+             $scope.send = function() {
+                 $http({
+                     url: 'serv.php',
+                     method: "POST",
+                     data: $scope.user
+                 })
+                 .then(function(response) {
+                         console.log("Succesfully posted data to server")
+                 },
+                 function(response) {
+                         alert("Failed to perfom data post!")
+                 });
+             };
+
+             $scope.reset = function() {
+                 $scope.user = angular.copy($scope.master);
+             };
+
+             //$scope.reset();
+
+
+         });
+      </script>
+      <hr class="uk-divider-icon">
+   </body>
+</html>
