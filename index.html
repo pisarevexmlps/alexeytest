@@ -6,7 +6,7 @@
    <link rel="stylesheet" href="assets/css/uikit.min.css" />
    <script src="assets/js/uikit.min.js"></script>
    <body>
-      <div uk-grid class="uk-padding-small">
+    <div uk-grid class="uk-padding-small">
       <div class="uk-card uk-card-default uk-card-body uk-width-1-2">
          <h3 class="uk-card-title">Добавить пользователя в базу</h3>
          <div ng-app="app" ng-controller="formNewUser">
@@ -36,8 +36,19 @@
          </div>
       </div>
       <div class="uk-card uk-card-default uk-card-body uk-width-1-2">Output</div>
-      </div>
+    </div>
 
+    <div uk-grid class="uk-padding-small">
+      <div class="uk-card uk-card-default uk-card-body uk-width-1-2">
+         <h3 class="uk-card-title">Удалить пользователя из базы</h3>
+         <ul class="uk-list uk-list-striped">
+            <li>List item 1<button class="uk-button uk-button-primary uk-button-small" style="float:right">Удалить</button></li>
+            <li>List item 1<button class="uk-button uk-button-primary uk-button-small" style="float:right">Удалить</button></li>
+            <li>List item 1<button class="uk-button uk-button-primary uk-button-small" style="float:right">Удалить</button></li>
+        </ul>
+      </div>
+      <div class="uk-card uk-card-default uk-card-body uk-width-1-2">Output</div>
+    </div>
       <script>
          var app = angular.module('app', []);
          app.controller('formNewUser', function($scope, $http) {
@@ -47,19 +58,39 @@
                  $http({
                      url: 'serv.php',
                      method: "POST",
-                     data: $scope.user
+                     data: angular.extend($scope.user, {"add_user": true})
                  })
                  .then(function(response) {
                          console.log("Succesfully posted data to server")
+                         console.log(response)
                  },
                  function(response) {
                          alert("Failed to perfom data post!")
+                         console.log(response)
                  });
              };
 
              $scope.reset = function() {
                  $scope.user = angular.copy($scope.master);
              };
+
+             $scope.getUsers = function () {
+               $http({
+                   url: 'serv.php',
+                   method: "POST",
+                   data: {"get_all_users": true})
+               })
+               .then(function(response) {
+                       console.log("Succesfully get data from server")
+                       console.log(response)
+                       var resp = angular.fromJson(json)
+                       //// IDEA: parse and use in the second block
+               },
+               function(response) {
+                       alert("Failed to perfom data post!")
+                       console.log(response)
+               });
+             }
 
              //$scope.reset();
 

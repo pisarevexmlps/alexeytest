@@ -1,23 +1,25 @@
-<?
+<?php
+echo "working!";
 $servername = "localhost";
-$username = "username";
-$password = "password";
+$username = "root";
+$password = "";
 $dbname = "mydb";
+
 
 
 // Define POST case
 switch (true) {
-  case isset($_POST['add_user']:
+  case isset($_POST['add_user']):
   AddUser();
     break;
-  case isset($_POST['del_user']:
+  case isset($_POST['del_user']):
   DeleteUser();
     break;
-  case isset($_POST['get_all_users']:
+  case isset($_POST['get_all_users']):
   GetAllUsers();
     break;
   default:
-    echo "Unknown request"
+    echo "Unknown request";
     break;
 }
 
@@ -28,14 +30,14 @@ $connection = new mysqli($servername, $username, $password);
 // Сheck if connection was established
 if ($connection->connect_error) {
     die("Failed to connect to database: " . $connection->connect_error);
-}
+};
 
 //FUnction for adding new user to database
-public function AddUser() {
+function AddUser() {
   if ($_POST["name"] && $_POST["lastname"] && $_POST["age"]) {
-    $SQL = "INSERT INTO users (firstname, lastname, age, ) VALUES (htmlspecialchars($_POST["name"]),
-                                                                  htmlspecialchars($_POST["lastname"]),
-                                                                  htmlspecialchars($_POST["age"]))";
+
+    $sql = "INSERT INTO users (firstname, lastname, age)
+    VALUES ('".$_POST["name"]."','".$_POST["lastname"]."','".$_POST["age"]."')";
 
     if ($connection->query($SQL) === TRUE) {
       echo "User added succesfully.";
@@ -49,7 +51,7 @@ public function AddUser() {
 }
 
 //Function for deleting specific user from database
-public function DeleteUser() {
+function DeleteUser() {
   $SQL = "DELETE FROM users WHERE id=".$_POST["id"];
 
   if ($connection->query($SQL) === TRUE) {
@@ -60,7 +62,7 @@ public function DeleteUser() {
 }
 
 //Get list of users from the base
-public function GetAllUsers() {
+function GetAllUsers() {
   $SQL = "SELECT firstname, lastname, age FROM users";
   $result = $connection->query($SQL);
 
