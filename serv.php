@@ -37,10 +37,10 @@ public function AddUser() {
                                                                   htmlspecialchars($_POST["lastname"]),
                                                                   htmlspecialchars($_POST["age"]))";
 
-    if ($connectiom->query($SQL) === TRUE) {
+    if ($connection->query($SQL) === TRUE) {
       echo "User added succesfully.";
     } else {
-      echo "Error adding user: " . $conn->error;
+      echo "Error adding user: " . $connnnection->error;
     }
 
   } else {
@@ -52,10 +52,10 @@ public function AddUser() {
 public function DeleteUser() {
   $SQL = "DELETE FROM users WHERE id=".$_POST["id"];
 
-  if ($connectiom->query($SQL) === TRUE) {
+  if ($connection->query($SQL) === TRUE) {
     echo "User deleted succesfully.";
   } else {
-      echo "Error deleting user: " . $conn->error;
+      echo "Error deleting user: " . $connnnection->error;
   }
 }
 
@@ -69,13 +69,13 @@ public function GetAllUsers() {
   if ($result->num_rows > 0) {
       // output data of each row
       while($row = $result->fetch_assoc()) {
-          $rows[] = $r;
+          $rows[] = $row;
       }
       return json_encode($rows);
   } else {
       echo "0 results";
   }
-  $conn->close();
 }
 
+$connection->close();
 ?>
